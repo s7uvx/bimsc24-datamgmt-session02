@@ -11,10 +11,10 @@ import { onMounted, onUpdated, computed } from 'vue'
 import * as THREE from "three";
 import { OrbitControls } from "three/examples/jsm/controls/OrbitControls";
 
-// 
+// Props are inputs to the component, the values we want to control from outside of components
+// You can think of it as similar inputs that we define to hops definition -> 
+// We want to access them from outside of the component
 const props = defineProps(['size'])
-
-
 
 // Three js objects
 let renderer, camera, scene ,  controls, geometry;
@@ -60,31 +60,22 @@ function createBox( l,w, h){
     const material = new THREE.MeshNormalMaterial()
     const sphere = new THREE.Mesh( geometry, material );
     scene.add( sphere );
-
 }
 
 function onSliderChange(color) {
-
   scene.clear()
   createBox( props.size, props.size,props.size );
-
 }
-
-
 
 onMounted(() => {
   init()
   animate()
 })
 
-
-
 onUpdated(() => {
   // text content should be the same as current `count.value`
   onSliderChange()
 })
-
-
 
 </script>
 
