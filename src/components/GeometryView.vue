@@ -1,6 +1,6 @@
 <template>
-  <div id="viewport" class="flex flex-col p-4">
-    <div id="threejs-container" class="py-5"></div>
+  <div id="viewport">
+    <div id="threejs-container"></div>
   </div>
 
 </template>
@@ -20,17 +20,17 @@ const props = defineProps(['size'])
 let renderer, camera, scene ,  controls, geometry;
 
 let width = 600;
-let heigh = 700;
+let height = 700;
 
 function init() {
   // rendeder
   renderer = new THREE.WebGLRenderer();
-  renderer.setSize(width, heigh);
+  renderer.setSize(width, height);
   renderer.setPixelRatio(window.devicePixelRatio);
   document.getElementById("threejs-container").appendChild(renderer.domElement);
 
   // camera
-  camera = new THREE.PerspectiveCamera(75, width / heigh, 0.1, 1000);
+  camera = new THREE.PerspectiveCamera(75, width / height, 0.1, 1000);
   camera.position.set(0, 0, 40);
 
   // scene
@@ -62,7 +62,7 @@ function createBox( l,w, h){
     scene.add( sphere );
 }
 
-function onSliderChange(color) {
+function onSliderChange() {
   scene.clear()
   createBox( props.size, props.size,props.size );
 }
@@ -72,8 +72,8 @@ onMounted(() => {
   animate()
 })
 
+//onUpdated is called when an input prop is changed
 onUpdated(() => {
-  // text content should be the same as current `count.value`
   onSliderChange()
 })
 
@@ -86,8 +86,8 @@ onUpdated(() => {
   border-width: 4px;
   border-radius: 10px;
   margin: 12px;
-  height: calc(100vh - 105px);
-  width: 600px;
+  height: 100%;
+  width: 100%;
   min-width: 200px;
   position:inherit;
 }
