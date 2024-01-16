@@ -21,12 +21,18 @@ function increment() {
   //console.log(`Value is: ${count.value}.`);
 }
 
+// This function has two inpputs corresponding to two inputs that
+// SlideInput.vue is emiting:
+// emits('outputSliderValue', sliderValue.value, titlec.value)
 function updateValue(newValue, parameterName) {
   if (parameterName === "Height") {
     firstSlider.value = newValue;
   }
 }
 
+// This function has one input, and it's correspoding to what ToggleInput.vue
+// is sending:
+// emits('outputToggleValue', toggleValue.value)
 function updateToggle(newValue) {
   runToggle.value = newValue;
 }
@@ -52,9 +58,9 @@ with data, objects, functions etc. -->
       That makes it App.vue a parent and SliderInput.vue a child. -->
       <SliderInput title="Height"
         v-bind:min="1" v-bind:max="50" v-bind:step="1"
-        v-on:updateValue="updateValue"/>
+        v-on:outputSliderValue="updateValue"/>
 
-      <ToggleInput title="Run?" v-on:updateValue="updateToggle"></ToggleInput>
+      <ToggleInput title="Run?" v-on:outputToggleValue="updateToggle"></ToggleInput>
 
       <h2>Value received in App.vue: {{ firstSlider }}</h2>
       <h2>Value received in App.vue: {{ runToggle }}</h2>

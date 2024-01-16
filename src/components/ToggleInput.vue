@@ -5,14 +5,14 @@ import { ref } from "vue"
 defineProps(['title'])
 
 // Define emits
-const emits = defineEmits(['updateValue'])
+const emits = defineEmits(['outputToggleValue'])
 
 // Define variables with refs
 var toggleValue = ref(false)
 
 // Define functions
 function sendToggleUpdate() {
-    emits('updateValue', toggleValue.value)
+    emits('outputToggleValue', toggleValue.value)
     //console.log(`from child component ${toggleValue.value}`)
 }
 </script>
