@@ -7,7 +7,7 @@ const props = defineProps(['title', 'min', 'max', 'step'])
 
 const titlec = ref(props.title)
 // Define events that will be accessible from parent component
-const emits = defineEmits(['updateValue'])
+const emits = defineEmits(['outputSliderValue'])
 
 
 
@@ -15,7 +15,7 @@ var sliderValue = ref(25)
 
 function sendValueUpate()
 {
-  emits('updateValue', sliderValue.value, titlec.value)
+  emits('outputSliderValue', sliderValue.value, titlec.value)
 }
 
 
