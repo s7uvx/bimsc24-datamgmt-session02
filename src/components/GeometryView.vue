@@ -1,5 +1,6 @@
 <template>
   <div id="viewport">
+    <!-- To this element we will append our 3d scene. -->
     <div id="threejs-container"></div>
   </div>
 
@@ -17,23 +18,28 @@ import { OrbitControls } from "three/examples/jsm/controls/OrbitControls";
 const props = defineProps(['size'])
 
 // Three js objects
-let renderer, camera, scene ,  controls, geometry;
+let renderer, camera, scene,  controls, geometry;
 
 let width = 600;
 let height = 700;
 
 function init() {
-  // rendeder
+  // https://threejs.org/docs/#api/en/renderers/WebGLRenderer
+  // This object will render our scene
   renderer = new THREE.WebGLRenderer();
+
+  // Rendered needs to know what's the size of the scene. 
   renderer.setSize(width, height);
   renderer.setPixelRatio(window.devicePixelRatio);
+
+  // We are taking element defined in <template> and appending our render to it. 
   document.getElementById("threejs-container").appendChild(renderer.domElement);
 
-  // camera
+  // https://threejs.org/docs/#api/en/cameras/PerspectiveCamera
   camera = new THREE.PerspectiveCamera(75, width / height, 0.1, 1000);
   camera.position.set(0, 0, 40);
 
-  // scene
+  // https://threejs.org/docs/?q=scene#api/en/scenes/Scene
   scene = new THREE.Scene();
   scene.background = new THREE.Color("#f5f6fa");
 
@@ -48,23 +54,31 @@ function init() {
 
 // for controls update
 function animate() {
+  // https://developer.mozilla.org/en-US/docs/Web/API/window/requestAnimationFrame
+  // native Javascript function that tells your browser you are animating!
   requestAnimationFrame(animate);
   controls.update();
   renderer.render(scene, camera);
 }
 
+// This function is responsible for creating a box, adding material to it and adding it to the scene
+function createBox(length, width, height){
+    // Instantiate new box and assign it to a variable 'geometry'
+    geometry = new THREE.BoxGeometry(length, width, height );
 
-function createBox( l,w, h){
-
-    geometry = new THREE.BoxGeometry( l ,w, h );
+    // Now create a material and assi
     const material = new THREE.MeshNormalMaterial()
-    const sphere = new THREE.Mesh( geometry, material );
-    scene.add( sphere );
+
+    // Create a mesh from geometry and material
+    const meshBox = new THREE.Mesh( geometry, material );
+
+    // Add it to a scene
+    scene.add( meshBox );
 }
 
 function onSliderChange() {
   scene.clear()
-  createBox( props.size, props.size,props.size );
+  createBox(props.size, props.size,props.size);
 }
 
 onMounted(() => {
