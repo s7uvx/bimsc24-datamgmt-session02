@@ -47,10 +47,10 @@ with data, objects, functions etc. -->
     <!-- <button @click="increment">Add one more</button>
     <p>Count is: {{  count }}</p> -->
 
-    <div>
+    <div id="sidePanel">
       <!-- Vue component injected into App.vue component template.
       That makes it App.vue a parent and SliderInput.vue a child. -->
-      <SliderInput title="Height"
+      <SliderInput title="Height" v-bind:initialValue="firstSlider"
         v-bind:min="1" v-bind:max="50" v-bind:step="1"
         v-on:updateValue="updateValue"/>
 
@@ -95,6 +95,11 @@ with data, objects, functions etc. -->
 
 #content {
   display: flex;
+  height: 100%
+}
+
+#sidePanel {
+  padding: 16px 16px
 }
 
 .logo-image {
@@ -103,9 +108,6 @@ with data, objects, functions etc. -->
 }
 
 h2 {
-  font-size: 1.125rem;
-  font-weight: 600;
-  letter-spacing: -0.05em;
   font-size: 1.125rem;
   font-weight: 600;
   letter-spacing: 0.01em;
