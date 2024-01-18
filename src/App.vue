@@ -94,6 +94,7 @@ with data, objects, functions etc. -->
 
 #content {
   display: flex;
+  padding: 20px
 }
 
 .logo-image {
@@ -108,6 +109,7 @@ h2 {
   font-size: 1.125rem;
   font-weight: 600;
   letter-spacing: 0.01em;
+  margin: 20px
 }
 </style>
 

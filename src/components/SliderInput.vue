@@ -3,7 +3,7 @@ import { ref } from "vue";
 // Define properties that you will be able to access from parent component. 
 // Those properties will be binded from parent to child. 
 // Available JavaScript types: https://developer.mozilla.org/en-US/docs/Web/JavaScript/Data_structures
-const props = defineProps(['title', 'min', 'max', 'step'])
+const props = defineProps(['title', 'min', 'max', 'step', 'initialValue'])
 
 const titlec = ref(props.title)
 // Define events that will be accessible from parent component
@@ -11,7 +11,7 @@ const emits = defineEmits(['outputSliderValue'])
 
 
 
-var sliderValue = ref(25)
+var sliderValue = ref(props.initialValue)
 
 function sendValueUpate()
 {
