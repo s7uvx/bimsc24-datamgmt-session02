@@ -24,13 +24,15 @@ function sendValueUpate()
 <template>
 <div>
 	<form class="definition-input">
-			<label class="input-title" for="range-slider">{{ title }}: {{ sliderValue }}</label>
+    <!-- https://developer.mozilla.org/en-US/docs/Web/HTML/Element/label -->
+    <label class="input-title" for="range-slider">{{ title }}: {{ sliderValue }}</label>
 
-			<input type="range" class="modern-range"
-			v-bind:min="min" v-bind:max="max" v-bind:step="step"
-			v-model="sliderValue" 
-      v-on:input="sendValueUpate"
-			/>
+    <!-- https://developer.mozilla.org/en-US/docs/Web/HTML/Element/input/range -->
+    <input type="range" class="modern-range"
+    v-bind:min="min" v-bind:max="max" v-bind:step="step"
+    v-model="sliderValue" 
+    v-on:input="sendValueUpate"
+    />
 	</form>
 </div>
 
