@@ -25,31 +25,67 @@ function clearText() {
 
 }
 
+
+
+const x =ref('125')
+const s = ref("80%")
+
+const l_store = ref('50')
+const l = ref('50%')
+colourSelection.value = `hsl(${x.value}, ${s.value}, ${l.value})`
+
+let fontColor = ref('black')
+let setFontColor = ref('black')
+
+function onMousemoveHue(e) {
+    x.value = e.clientX
+    colourSelection.value = `hsl(${x.value}, ${s.value}, ${l.value})`
+}
+
+function onMousemoveSat(e) {
+    s.value = parseFloat(e.clientX/3.8).toFixed(0)+'%'
+    colourSelection.value = `hsl(${x.value}, ${s.value}, ${l.value})`
+}
+
+function onMousemoveLum(e) {
+    l_store.value = parseFloat(e.clientX/3.8).toFixed(0)
+    if (l_store.value<50)
+    {
+        fontColor.value = 'white'
+    }
+    else {
+        fontColor.value = 'black'
+    }
+    l.value = l_store.value+'%'
+    colourSelection.value = `hsl(${x.value}, ${s.value}, ${l.value})`
+
+}
+
+function selectNavbar() {
+    selector.value = "#navbar"
+}
+
+function selectMain() {
+    selector.value = "#main"
+}
+function selectSidebar() {
+    selector.value = "#sidebar"
+}
+
 function updateCSS() {
+    if (l_store.value < 50) {
+        setFontColor.value = 'white'
+    }
+    else {
+        setFontColor.value = 'black'
+    }
     const elements = document.querySelectorAll(selector.value)
     elements.forEach((element) => {
         //change the colour of the element
         element.style.background = colourSelection.value
+        element.style.color = setFontColor.value
     })
 }
-
-const x =ref(0)
-const s = ref("80%")
-const l = ref("50%") 
-
-function onMousemove(e) {
-    x.value = e.clientX
-    colourSelection.value = `hsl(${x.value}, ${s.value}, 50%)`
-}
-
-function setToNavbar() {
-    selector.value = "#navbar"
-}
-
-function setToMain() {
-    selector.value = "#main"
-}
-
 </script>
 
 
@@ -57,7 +93,7 @@ function setToMain() {
 <!-- the template is where the html code goes -->
 <template>
 
-<div id="navbar" class="container" @click="setToNavbar">
+<div id="navbar" class="container" @click="selectNavbar">
       <div id="title">It's a cow!</div>
       <div id="logo">
         <img src="\src\assets\cow.jpg" alt="macad cow" />
@@ -71,18 +107,34 @@ function setToMain() {
         <button @click="clearText"> Clear text</button>
         <p><br></p>
         <input type='text' v-model="selector" placeholder="element type" />
-        <div
-            @mousemove="onMousemove"
-            @click="updateCSS"
-            class = "movearea">
-        <p>Click to set colour</p>
-        </div>
+        
             
         <input type='text' v-model="colourSelection" placeholder="new background colour" />
         <button @click="updateCSS">Change background</button>
+        <div
+            @mousemove="onMousemoveHue"
+            @click="updateCSS"
+            class = "movearea">
+            <p>hue {{ x }}</p>
+        </div>
+        <div
+            @mousemove="onMousemoveSat"
+            @click="updateCSS"
+            class = "movearea">
+            <p>saturation {{ s }}</p>
+        </div>
+        <div
+            @mousemove="onMousemoveLum"
+            @click="updateCSS"
+            class = "movearea">
+            <p>luminance {{ l }}</p>
+        </div>
+        <div @click="selectSidebar" class="expanding">
+            <p><br></p>
+        </div>
       </div>
 
-      <div id="main" class="container" @click="setToMain">
+      <div id="main" class="container" @click="selectMain">
         <!-- <p> input text is {{ newText }} </p> -->
         <p class="newlineStringStyle"> <pre>{{ outputText }}</pre> </p>
 
@@ -167,11 +219,8 @@ input{
 }
 
 .container{
-
     border-style: dotted;
     border-width: 1px;
-    
-
 }
 
 .newlineStringStyel {
@@ -180,13 +229,22 @@ input{
 
 .movearea {
   background-color: v-bind(colourSelection);
-  transition: 0.3s background-color ease;
-  height: 50px;
+  transition: 0.5s background-color ease;
+  height: 23px;
   padding: 10px;
-  border-radius: 3px;
+  border-radius: 1px;
+  border-style: solid;
   display: flex;
   justify-content: center;
   align-items: center;
+  border-color: grey;
+  border-width: 1px;
+  color: v-bind(fontColor);
+  transition: 0.5s color ease;
+}
+
+.expanding {
+    height: 100%;
 }
 
 </style>
