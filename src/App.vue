@@ -8,7 +8,7 @@ import { ref } from "vue"
 const newText = ref('')
 let outputText = ref('')
 
-let selector = ref('#title')
+let selector = ref('')
 let colourSelection = ref('')
 
 
@@ -38,17 +38,23 @@ let fontColor = ref('black')
 let setFontColor = ref('black')
 
 function onMousemoveHue(e) {
-    x.value = e.clientX
+    let bar = document.querySelector('#sidebar')
+    let width = bar.clientWidth
+    x.value = parseFloat(360*e.clientX/width).toFixed(0)
     colourSelection.value = `hsl(${x.value}, ${s.value}, ${l.value})`
 }
 
 function onMousemoveSat(e) {
-    s.value = parseFloat(e.clientX/3.8).toFixed(0)+'%'
+    let bar = document.querySelector('#sidebar')
+    let width = bar.clientWidth
+    s.value = parseFloat(100*e.clientX/width).toFixed(0)+'%'
     colourSelection.value = `hsl(${x.value}, ${s.value}, ${l.value})`
 }
 
 function onMousemoveLum(e) {
-    l_store.value = parseFloat(e.clientX/3.8).toFixed(0)
+    let bar = document.querySelector('#sidebar')
+    let width = bar.clientWidth
+    l_store.value = parseFloat(100*e.clientX/width).toFixed(0)
     if (l_store.value<50)
     {
         fontColor.value = 'white'
@@ -85,7 +91,18 @@ function updateCSS() {
         element.style.background = colourSelection.value
         element.style.color = setFontColor.value
     })
+    shakeOut()
 }
+
+const disabled = ref(false)
+
+function shakeOut() {
+  disabled.value = true
+  setTimeout(() => {
+    disabled.value = false
+  }, 1500)
+}
+
 </script>
 
 
@@ -95,20 +112,18 @@ function updateCSS() {
 
 <div id="navbar" class="container" @click="selectNavbar">
       <div id="title">It's a cow!</div>
-      <div id="logo">
-        <img src="\src\assets\cow.jpg" alt="macad cow" />
+      <div id="logo" :class="{shake: disabled}">
+        <img src="\src\assets\cow.png" alt="macad cow" />
       </div>
     </div>
 
     <div id="flex">
       <div id="sidebar" class="container">
-        <input type='text' v-model="newText" placeholder="Add Text" v-on:keyup.enter="updateText"/>
+        <input type='text' v-model="newText" placeholder="Add Text" v-on:keyup.enter="updateText(); shakeOut()"/>
         <button @click="updateText"> Add text </button>
         <button @click="clearText"> Clear text</button>
         <p><br></p>
         <input type='text' v-model="selector" placeholder="element type" />
-        
-            
         <input type='text' v-model="colourSelection" placeholder="new background colour" />
         <button @click="updateCSS">Change background</button>
         <div
@@ -245,6 +260,33 @@ input{
 
 .expanding {
     height: 100%;
+}
+.shake {
+  animation: shake 0.82s cubic-bezier(0.36, 0.07, 0.19, 0.97) both;
+  transform: translate3d(0, 0, 0);
+}
+
+@keyframes shake {
+  10%,
+  90% {
+    transform: translate3d(-1px, 0, 0);
+  }
+
+  20%,
+  80% {
+    transform: translate3d(2px, 0, 0);
+  }
+
+  30%,
+  50%,
+  70% {
+    transform: translate3d(-4px, 0, 0);
+  }
+
+  40%,
+  60% {
+    transform: translate3d(4px, 0, 0);
+  }
 }
 
 </style>
