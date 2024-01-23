@@ -97,10 +97,11 @@ function updateCSS() {
 const disabled = ref(false)
 
 function shakeOut() {
+  let timeOfShake = Math.random()*10000+1500
   disabled.value = true
   setTimeout(() => {
     disabled.value = false
-  }, 1500)
+  }, timeOfShake)
 }
 
 </script>
